@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏦 Banco Digital</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <i data-lucide="building-2" class="logo-icon"></i>
+                    <h1>Banco Digital</h1>
+                </div>
+                <p>Sistema bancário completo e seguro</p>
+            </div>
+        </header>
+
+        <!-- Sistema de Login/Registro -->
+        <div id="authSection" class="auth-section">
+            <div class="auth-tabs">
+                <button class="tab-btn active" onclick="showTab('login')">
+                    <i data-lucide="log-in" class="tab-icon"></i>
+                    Login
+                </button>
+                <button class="tab-btn" onclick="showTab('register')">
+                    <i data-lucide="user-plus" class="tab-icon"></i>
+                    Cadastro
+                </button>
+            </div>
+
+            <!-- Formulário de Login -->
+            <div id="loginTab" class="auth-tab active">
+                <form id="loginForm" class="form">
+                    <div class="form-group">
+                        <label for="loginEmail">
+                            <i data-lucide="mail" class="input-icon"></i>
+                            Email:
+                        </label>
+                        <input type="email" id="loginEmail" name="email" required placeholder="seu@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="loginSenha">
+                            <i data-lucide="lock" class="input-icon"></i>
+                            Senha:
+                        </label>
+                        <input type="password" id="loginSenha" name="senha" required placeholder="Sua senha">
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i data-lucide="arrow-right" class="btn-icon"></i>
+                        Entrar
+                    </button>
+                </form>
+            </div>
+
+            <!-- Formulário de Cadastro -->
+            <div id="registerTab" class="auth-tab">
+                <form id="registerForm" class="form">
+                    <div class="form-group">
+                        <label for="registerNome">
+                            <i data-lucide="user" class="input-icon"></i>
+                            Nome Completo:
+                        </label>
+                        <input type="text" id="registerNome" name="nome" required placeholder="Seu nome completo">
+                    </div>
+                    <div class="form-group">
+                        <label for="registerEmail">
+                            <i data-lucide="mail" class="input-icon"></i>
+                            Email:
+                        </label>
+                        <input type="email" id="registerEmail" name="email" required placeholder="seu@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="registerSenha">
+                            <i data-lucide="lock" class="input-icon"></i>
+                            Senha:
+                        </label>
+                        <input type="password" id="registerSenha" name="senha" required placeholder="Mínimo 6 caracteres">
+                    </div>
+                    <div class="form-group">
+                        <label for="registerSaldo">
+                            <i data-lucide="dollar-sign" class="input-icon"></i>
+                            Saldo Inicial:
+                        </label>
+                        <input type="number" id="registerSaldo" name="saldo" step="0.01" min="0" required placeholder="0.00">
+                    </div>
+                    <button type="submit" class="btn btn-success">
+                        <i data-lucide="check" class="btn-icon"></i>
+                        Criar Conta
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Dashboard do Usuário (visível após login) -->
+        <div id="dashboardSection" class="dashboard-section" style="display: none;">
+            <!-- Informações do Usuário -->
+            <section class="section user-info-section">
+                <h2>
+                    <i data-lucide="user-circle" class="section-icon"></i>
+                    Minha Conta
+                </h2>
+                <div id="userInfo" class="user-info-card">
+                    <div class="user-details">
+                        <h3 id="userName">Nome do Usuário</h3>
+                        <p id="userEmail">
+                            <i data-lucide="mail" class="detail-icon"></i>
+                            email@exemplo.com
+                        </p>
+                        <p id="userAccount">
+                            <i data-lucide="credit-card" class="detail-icon"></i>
+                            Conta: 00000000
+                        </p>
+                    </div>
+                    <div class="balance-info">
+                        <h4>Saldo Disponível</h4>
+                        <div id="userBalance" class="balance-amount">R$ 0,00</div>
+                    </div>
+                    <button class="btn btn-secondary" onclick="logout()">
+                        <i data-lucide="log-out" class="btn-icon"></i>
+                        Sair
+                    </button>
+                </div>
+            </section>
+
+            <!-- Transferências -->
+            <section class="section">
+                <h2>
+                    <i data-lucide="send" class="section-icon"></i>
+                    Transferir Dinheiro
+                </h2>
+                <form id="transferForm" class="form">
+                    <div class="form-group">
+                        <label for="contaDestino">
+                            <i data-lucide="credit-card" class="input-icon"></i>
+                            Número da Conta Destino:
+                        </label>
+                        <input type="text" id="contaDestino" name="contaDestino" required placeholder="00000000" maxlength="8">
+                    </div>
+                    <div class="form-group">
+                        <label for="valorTransferencia">
+                            <i data-lucide="dollar-sign" class="input-icon"></i>
+                            Valor:
+                        </label>
+                        <input type="number" id="valorTransferencia" name="valor" step="0.01" min="0.01" required placeholder="0.00">
+                    </div>
+                    <button type="submit" class="btn btn-warning">
+                        <i data-lucide="arrow-right" class="btn-icon"></i>
+                        Transferir
+                    </button>
+                </form>
+            </section>
+
+            <!-- Histórico de Transações -->
+            <section class="section">
+                <h2>
+                    <i data-lucide="activity" class="section-icon"></i>
+                    Histórico de Transações
+                </h2>
+                <div class="actions">
+                    <button class="btn btn-primary" onclick="loadTransactions()">
+                        <i data-lucide="refresh-cw" class="btn-icon"></i>
+                        Atualizar
+                    </button>
+                </div>
+                <div id="transactionsList" class="transactions-list">
+                    <div class="loading">
+                        <i data-lucide="loader-2" class="loading-icon"></i>
+                        Carregando transações...
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Modal de Notificação -->
+        <div id="notificationModal" class="modal">
+            <div class="modal-content">
+                <span class="close">
+                    <i data-lucide="x"></i>
+                </span>
+                <div id="modalMessage"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Inicializa os ícones do Lucide
+        lucide.createIcons();
+    </script>
+</body>
+</html>
